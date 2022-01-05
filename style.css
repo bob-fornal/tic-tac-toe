@@ -1,0 +1,94 @@
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.wrapper {
+  border: 1px solid rgb(201, 201, 201);
+  box-shadow: rgb(228 228 228) 0px 10px 30px 5px;
+  width: 60vw;
+  background-color: white;
+  margin: 3vh auto;
+  border-radius: 10px;
+}
+
+.header, .footer {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+}
+
+.select-type-button, .restart-button {
+  width: 20%;
+  padding: 1em;
+  font-weight: bold;
+}
+.select-type-button:not(:last-of-type) {
+  margin-right: 2vw;
+}
+
+.select-type-button.player-choice {
+  border: 2px solid black;
+  box-shadow: rgb(126 118 118) 0px 3px 12px;
+}
+
+.game-table {
+  background-color: lightgray;
+  padding: 3vh 0;
+}
+
+.table-wrapper {
+  border-collapse: collapse;
+  width: 240px;
+  height: 240px;
+  margin: 0 auto;
+}
+
+.table-wrapper td {
+  border: 3px solid gray;
+  font-size: 50px;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+}
+
+.winner-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: rgba(100, 100, 100, 0.2);
+}
+
+.winner-wrapper:not(.display) {
+  display: none;
+}
+.winner-wrapper.display {
+  display: block;
+}
+
+.winner-modal {
+  width: 80vw;
+  height: 80vh;
+  background-color: white;
+  border: 2px solid silver;
+  position: relative;
+  top: 10vh;
+  left: 10vw;
+}
+
+.winner-title {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+  font-size: 5vw;
+}
+
+.winner-text {
+  display: flex;
+  justify-content: center;
+  padding: 0.3em;
+  font-size: 30vw;
+}
