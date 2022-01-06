@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tic-Tac-Toe</title>
+
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+
+    <div class="wrapper">
+
+      <div class="header" id="gameHeader">
+        <button id="x" class="select-type-button">X</button>
+        <button id="o" class="select-type-button">O</button>
+      </div>
+
+      <div class="game-table" id="gameTable">
+        <table class="table-wrapper">
+          <tr>
+            <td data-id="0"></td>
+            <td data-id="1"></td>
+            <td data-id="2"></td>
+          </tr>
+          <tr>
+            <td data-id="3"></td>
+            <td data-id="4"></td>
+            <td data-id="5"></td>
+          </tr>
+          <tr>
+            <td data-id="6"></td>
+            <td data-id="7"></td>
+            <td data-id="8"></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="footer">
+        <button id="restart" class="restart-button">RESTART</button>
+      </div>
+
+    </div>
+
+    <div id="winner-wrapper" class="winner-wrapper">
+      <div class="winner-modal">
+        <div class="winner-title">
+          The winner is ...
+        </div>
+        <div id="winner" class="winner-text"></div>
+      </div>
+    </div>
+
+    <script src="logic.js"></script>
+    <script>
+      game.init();
+    </script>
+
+  </body>
+</html>
