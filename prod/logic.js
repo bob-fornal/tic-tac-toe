@@ -93,14 +93,32 @@ class Game {
       }
   
       this.displayBoard();
-      this.checkAndHandleWinner('x');
+      const isWinner = this.checkAndHandleWinner('x');
+      if (!isWinner) {
+        this.checkForTie();
+      }
     }
   };
 
   checkAndHandleWinner = (type) => {
-    const xWins = this.checkWinner(type);
-    if (xWins === true) {
+    const wins = this.checkWinner(type);
+    if (wins === true) {
       this.winner.innerText = type.toUpperCase();
+      this.winnerWrapper.classList.add('display');
+    }
+    return wins;
+  };
+
+  checkForTie = () => {
+    let tie = true;
+    for (let id = 0, len = this.board.length; id < len; id++) {
+      if (this.board[id] === this.empty) {
+        tie = false;
+        break;
+      }
+    }
+    if (tie === true) {
+      this.winner.innerText = 'TIE';
       this.winnerWrapper.classList.add('display');
     }
   };
