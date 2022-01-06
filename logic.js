@@ -1,143 +1,142 @@
 
-const game = {
-  empty: '',
+class Game {
 
-  board: [],
-  tiles: null,
-  
-  human: null,
-  computer: null,
+  empty = '';
+  board = [];
+  tiles = null;
 
-  xButton: null,
-  oButton: null,
-  table: null,
-  restart: null,
+  human = { choice: null };
+  computer = { choice: null };
 
-  winners: [
+  buttons = {
+    x: null,
+    o: null,
+    restart: null
+  };
+  table = null;
+
+  winners = [
     [ 0, 1, 2 ], [ 3, 4, 5 ], [ 6, 7, 8 ],
     [ 0, 3, 6 ], [ 1, 4, 7 ], [ 2, 5, 8 ],
     [ 0, 4, 8 ], [ 2, 4, 6 ]
-  ],
-  winnerWrapper: null,
-  winner: null
-};
+  ];
+  winnerWrapper = null;
+  winner = null;
 
-game.clearBoard = () => {
-  if (game.tiles === null) game.tiles = document.querySelectorAll('[data-id]');
-  for (let id = 0, len = 9; id < len; id++) {
-    game.board[id] = game.empty;
+  constructor() {
+    this.clearBoard();
+    this.clearWinner();
+  
+    this.displayBoard();
+    this.addEventListeners();
   }
-};
 
-game.clearWinner = () => {
-  if (game.winnerWrapper === null) game.winnerWrapper = document.getElementById('winner-wrapper');
-  if (game.winner === null) game.winner = document.getElementById('winner');
-  game.winnerWrapper.classList.remove('display');
-};
+  displayBoard = () => {
+    this.tiles.forEach(tile => {
+      const id = parseInt(tile.dataset.id, 10);
+      tile.innerText = this.board[id];
+    });
+  };
 
-game.displayBoard = () => {
-  game.tiles.forEach(tile => {
-    const id = parseInt(tile.dataset.id, 10);
-    tile.innerText = game.board[id];
-  });
-};
+  clearBoard = () => {
+    if (this.tiles === null) this.tiles = document.querySelectorAll('[data-id]');
+    for (let id = 0, len = 9; id < len; id++) {
+      this.board[id] = this.empty;
+    }
+  };
 
-game.init = () => {
-  game.clearBoard();
-  game.clearWinner();
-  game.setupPlayers();
+  clearWinner = () => {
+    if (this.winnerWrapper === null) this.winnerWrapper = document.getElementById('winner-wrapper');
+    if (this.winner === null) this.winner = document.getElementById('winner');
+    this.winnerWrapper.classList.remove('display');
+  };
 
-  game.displayBoard();
-  game.addEventListeners();
-};
+  addEventListeners = () => {
+    this.table = document.getElementById('gameTable');
+    this.buttons.restart = document.getElementById('restart');
+    this.buttons.x = document.getElementById('x');
+    this.buttons.o = document.getElementById('o');
+  
+    this.table.addEventListener('click', this.handleTableClick);
+    this.buttons.restart.addEventListener('click', this.handleRestart);
+    this.buttons.x.addEventListener('click', this.handleButtonClick.bind(null, 'x'));
+    this.buttons.o.addEventListener('click', this.handleButtonClick.bind(null, 'o'));
+    this.winnerWrapper.addEventListener('click', this.handleWinnerWrapperClick);
+  };
 
-game.Players = (name, choice = null) => ({ name, choice });
+  handleButtonClick = (type) => {
+    this.human.choice = type;
+    this.computer.choice = (type === 'x') ? 'o' : 'x';
 
-game.setupPlayers = () => {
-  game.human = game.Players('YOU', null);
-  game.computer = game.Players('Computer', null);
-};
-
-game.addEventListeners = () => {
-  game.table = document.getElementById('gameTable');
-  game.restart = document.getElementById('restart');
-  game.xButton = document.getElementById('x');
-  game.oButton = document.getElementById('o');
-
-  game.table.addEventListener('click', game.handleTableClick);
-  game.restart.addEventListener('click', game.handleRestart);
-  game.xButton.addEventListener('click', game.handleButtonClick.bind(null, 'x'));
-  game.oButton.addEventListener('click', game.handleButtonClick.bind(null, 'o'));
-  game.winnerWrapper.addEventListener('click', game.handleWinnerWrapperClick);
-};
-
-game.handleButtonClick = (type) => {
-  game.human.choice = type;
-  game.computer.choice = (type === 'x') ? 'o' : 'x';
-  if (type === 'x') {
-    game.xButton.classList.add('player-choice');
-    game.oButton.classList.remove('player-choice');
-  } else {
-    game.xButton.classList.remove('player-choice');
-    game.oButton.classList.add('player-choice');
-  }
-  game.clearBoard();
-  game.displayBoard();
-};
-
-game.handleTableClick = (event) => {
-  const id = event.target.dataset.id;
-  if (game.human.choice === null) return;
-
-  if (game.board[id] === game.empty) {
-    game.board[id] = game.human.choice;
-
-    let emptySpaces = game.board.find(x => x === game.empty);
-    if (emptySpaces !== undefined) {
-      game.computerPlay();
+    if (type === 'x') {
+      this.buttons.x.classList.add('player-choice');
+      this.buttons.o.classList.remove('player-choice');
+    } else {
+      this.buttons.x.classList.remove('player-choice');
+      this.buttons.o.classList.add('player-choice');
     }
 
-    game.displayBoard();
-    const xWins = game.checkWinner('x');
+    this.clearBoard();
+    this.displayBoard();
+  };
+
+  handleTableClick = (event) => {
+    const id = event.target.dataset.id;
+    if (this.human.choice === null) return;
+  
+    if (this.board[id] === this.empty) {
+      this.board[id] = this.human.choice;
+  
+      let emptySpaces = this.board.find(x => x === this.empty);
+      if (emptySpaces !== undefined) {
+        this.computerPlay();
+      }
+  
+      this.displayBoard();
+      this.checkAndHandleWinner('x');
+    }
+  };
+
+  checkAndHandleWinner = (type) => {
+    const xWins = this.checkWinner(type);
     if (xWins === true) {
-      game.winner.innerText = 'X';
-      game.winnerWrapper.classList.add('display');
+      this.winner.innerText = type.toUpperCase();
+      this.winnerWrapper.classList.add('display');
     }
-  }
-};
+  };
 
-game.generatePosition = () => {
-  let emptyIds = [];
-  game.board.forEach((tile, id) => {
-    if (tile === game.empty) emptyIds.push(id);
-  });
-  return emptyIds[Math.floor(Math.random() * emptyIds.length)];
-};
+  generatePosition = () => {
+    let emptyIds = [];
+    this.board.forEach((tile, id) => {
+      if (tile === this.empty) emptyIds.push(id);
+    });
+    return emptyIds[Math.floor(Math.random() * emptyIds.length)];
+  };
 
-game.computerPlay = () => {
-  let id = game.generatePosition();
-  game.board[id] = game.computer.choice;
+  computerPlay = () => {
+    let id = this.generatePosition();
+    this.board[id] = this.computer.choice;
+  
+    this.displayBoard();
+    this.checkAndHandleWinner('o');
+  };
 
-  game.displayBoard();
-  const xWins = game.checkWinner('o');
-  if (xWins === true) {
-    game.winner.innerText = 'O';
-    game.winnerWrapper.classList.add('display');
-  }
-};
+  checkWinner = (tag) => {
+    const combinations = this.winners.map((keys) => keys.map(key => this.board[key]));
+    const winner = combinations.find(values => values.every(tile => tile === tag));
+    return !!winner;
+  };
 
-game.checkWinner = (tag) => {
-  const combinations = game.winners.map((keys) => keys.map(key => game.board[key]));
-  const winner = combinations.find(values => values.every(tile => tile === tag));
-  return !!winner;
-};
+  handleRestart = () => {
+    this.clearBoard();
+    this.displayBoard();
+    this.clearWinner();
+  };
 
-game.handleRestart = () => {
-  game.clearBoard();
-  game.displayBoard();
-  game.clearWinner();
-};
+  handleWinnerWrapperClick = () => {
+    this.handleRestart();
+  };
 
-game.handleWinnerWrapperClick = () => {
-  game.handleRestart();
-};
+}
+
+const game = new Game();
