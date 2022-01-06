@@ -12,6 +12,21 @@ body {
   border-radius: 10px;
 }
 
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  font-size: smaller;
+  width: 100vw;
+  padding-bottom: 0.5em;
+}
+.page-footer .row {
+  display: flex;
+  justify-content: center;
+}
+.page-footer .row a {
+  margin: 0 0.25em;
+}
+
 .header, .footer {
   display: flex;
   justify-content: center;
