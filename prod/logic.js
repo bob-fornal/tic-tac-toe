@@ -1,7 +1,12 @@
 
 class Game {
 
-  empty = '';
+  empty = Object.freeze('');
+  images = {
+    x: '<img class="image" src="./x.png" />',
+    o: '<img class="image" src="./o.png" />'
+  };
+
   board = [];
   tiles = null;
 
@@ -34,7 +39,8 @@ class Game {
   displayBoard = () => {
     this.tiles.forEach(tile => {
       const id = parseInt(tile.dataset.id, 10);
-      tile.innerText = this.board[id];
+      tile.innerHTML = (this.board[id] === this.empty) ? '' : this.images[this.board[id]];
+      // tile.innerText = this.board[id];
     });
   };
 

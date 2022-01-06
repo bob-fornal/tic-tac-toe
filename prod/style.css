@@ -52,19 +52,31 @@ body {
   padding: 3vh 0;
 }
 
-.table-wrapper {
-  border-collapse: collapse;
-  width: 240px;
-  height: 240px;
+.game-board {
+  width: 300px;
+  height: 300px;
   margin: 0 auto;
+  background-color: #34495e;
+  color: #fff;
+  border: 3px solid #2c3e50;
+  border-radius: 5px;
+
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
 
-.table-wrapper td {
-  border: 3px solid gray;
-  font-size: 50px;
-  width: 80px;
-  height: 80px;
-  text-align: center;
+.game-board .tile {
+  border: 3px solid #2c3e50;
+  border-radius: 2px;
+
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+}
+
+.tile .image {
+  width: 70px;
 }
 
 .winner-wrapper {
