@@ -4,12 +4,25 @@ body {
 }
 
 .wrapper {
-  border: 1px solid rgb(201, 201, 201);
-  box-shadow: rgb(228 228 228) 0px 10px 30px 5px;
-  width: 60vw;
   background-color: white;
-  margin: 3vh auto;
-  border-radius: 10px;
+}
+
+@media only screen and (max-width: 786px) {
+  .wrapper {
+    width: 100vw;
+    margin: 0;
+  }
+}
+
+@media only screen and (min-width: 787px) {
+  .wrapper {
+    border: 1px solid rgb(201, 201, 201);
+    box-shadow: rgb(228 228 228) 0px 10px 30px 5px;
+    width: 60vw;
+    margin: 3vh auto;
+    border-radius: 10px;
+  }
+  
 }
 
 .page-footer {
@@ -17,6 +30,7 @@ body {
   bottom: 0;
   font-size: smaller;
   width: 100vw;
+  height: 2em;
   padding-bottom: 0.5em;
 }
 .page-footer .row {
@@ -34,7 +48,7 @@ body {
 }
 
 .select-type-button, .restart-button {
-  width: 20%;
+  min-width: 20vw;
   padding: 1em;
   font-weight: bold;
 }
